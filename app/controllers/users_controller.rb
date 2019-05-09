@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       if @user.save
 
         # Send email to user when user is created.
-        SendEmailJob.set(wait: 30.second).perform_later(@user)
+        SendEmailJob.set(wait: 10.seconds).perform_later(@user)
 
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
