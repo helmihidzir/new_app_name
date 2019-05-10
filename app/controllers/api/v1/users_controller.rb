@@ -1,15 +1,18 @@
-class UsersController < ApplicationController
+class Api::V1::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-
+  skip_before_action :verify_authenticity_token
+  
   # GET /users
   # GET /users.json
   def index
     @users = User.all
+    render json: @users
   end
 
   # GET /users/1
   # GET /users/1.json
   def show
+    render json: @user
   end
 
   # GET /users/new
@@ -32,8 +35,8 @@ class UsersController < ApplicationController
         # Send email to user when user is created.
         SendEmailJob.set(wait: 10.seconds).perform_later(@user)
 
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
+        format.html { redirect_to api_v1_user_url(@user), notice: 'User was successfully created.' }
+        format.json { render :show, status: :created, location: api_v1_user_url(@user) }
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
