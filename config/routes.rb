@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
-  namespace :api do
-    namespace :v1 do
-      resources :users
-    end
-  end    
+  resources :users
+
+  match '/templates' => 'users#create', via: :post
 
   require 'sidekiq/web'
   mount Sidekiq::Web=>'/sidekiq'

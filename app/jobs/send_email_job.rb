@@ -1,9 +1,7 @@
 class SendEmailJob < ApplicationJob
   queue_as :default
 
-  def perform(user)
-    @user = user
-    ExampleMailer.sample_email(@user).deliver_later
-
+  def perform(template)
+    ExampleMailer.sample_email(template).deliver_later
   end
 end

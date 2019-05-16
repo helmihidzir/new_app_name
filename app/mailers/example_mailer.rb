@@ -1,9 +1,8 @@
 class ExampleMailer < ApplicationMailer
   default from: "from@example.com"
-
-  def sample_email(user)
-    @user = user
-    mail(to: @user.email, subject: 'Sample Email')
+  def sample_email(template)
+    @template = template
+    mail(to: @template[:email], subject: 'Sample Email')
     puts 'something'
   end
 end

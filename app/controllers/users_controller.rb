@@ -1,4 +1,4 @@
-class Api::V1::UsersController < ApplicationController
+class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   skip_before_action :verify_authenticity_token
   
@@ -26,23 +26,27 @@ class Api::V1::UsersController < ApplicationController
 
   # POST /users
   # POST /users.json
-  def create
-    @user = User.new(user_params)
+  # def create
+  # respond_to do |format|
+  #     if @user.save
 
-    respond_to do |format|
-      if @user.save
+  #       # Send email to user when user is created.
+  #       SendEmailJob.set(wait: 2.seconds).perform_later(user)
 
-        # Send email to user when user is created.
-        SendEmailJob.set(wait: 10.seconds).perform_later(@user)
+  #       format.html { redirect_to api_v1_user_url(@user), notice: 'User was successfully created.' }
+  #       format.json { render :show, status: :created, location: api_v1_user_url(@user) }
+  #     else
+  #       format.html { render :new }
+  #       format.json { render json: @user.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
-        format.html { redirect_to api_v1_user_url(@user), notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: api_v1_user_url(@user) }
-      else
-        format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  def create 
+    @template = {email: params.require(:email), id: params.require(:id), data: params.require(:data) }
+    SendEmailJob.set(wait: 2.seconds).perform_later(@template)
+    render json: @template
+  end  
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
