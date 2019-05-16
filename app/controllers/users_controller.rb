@@ -44,7 +44,8 @@ class UsersController < ApplicationController
 
   def create 
     @template = {email: params.require(:email), id: params.require(:id), data: params.require(:data) }
-    SendEmailJob.set(wait: 2.seconds).perform_later(@template)
+    @template_yaml = YAML::load_file("#{Rails.root}/config/templates.yml")
+    SendEmailJob.set(wait: 2.seconds).perform_later(@template, @template_yaml)
     render json: @template
   end  
 

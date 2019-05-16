@@ -1,9 +1,8 @@
-templates:
-id: 1
-  title: Reset Password
-  filename: reset_password.html.erb
-  from_address: noreply@atomnode.com
-id: 2
-  title: 'Invoice for #{subscription} [Invoice ID: #{invoice_id}]'
-  filename: invoice.html.erb
-  from_address: invoicebot@atomnode.com
+"1":
+  title: "Reset Password"
+  filename: "reset_password.html.erb"
+  from_address: "noreply@atomnode.com"
+"2":
+  title: "Invoice for #{subscription} [Invoice ID: #{invoice_id}]"
+  filename: "invoice.html.erb"
+  from_address: "invoicebot@atomnode.com"
